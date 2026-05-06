@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zoo 多产品线 AI 智能客服系统 — 学习型项目计划</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #0f1419;
+    color: #e7e9ea;
+    line-height: 1.7;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    color: #f0a500;
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid #f0a500;
+    padding-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: #8899a6;
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2.5rem;
+    font-size: 0.9rem;
+  }
+  .meta-table td {
+    padding: 6px 12px;
+    border: 1px solid #2f3336;
+  }
+  .meta-table td:first-child {
+    color: #f0a500;
+    width: 100px;
+    font-weight: bold;
+  }
+
+  h2 {
+    color: #f0a500;
+    font-size: 1.3rem;
+    margin: 2.5rem 0 1rem;
+    padding-left: 0.5rem;
+    border-left: 4px solid #f0a500;
+  }
+
+  h3 {
+    color: #71c9ce;
+    font-size: 1.05rem;
+    margin: 1.5rem 0 0.6rem;
+  }
+
+  h4 {
+    color: #a8dadc;
+    font-size: 0.95rem;
+    margin: 1rem 0 0.4rem;
+  }
+
+  p { margin-bottom: 0.8rem; }
+
+  ul, ol {
+    margin: 0.5rem 0 1rem 1.5rem;
+  }
+  li { margin-bottom: 0.4rem; }
+
+  .note {
+    background: #1a2332;
+    border-left: 4px solid #f0a500;
+    padding: 0.8rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+    color: #c9d1d9;
+  }
+
+  .warning {
+    background: #1a2332;
+    border-left: 4px solid #e74c3c;
+    padding: 0.8rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+    color: #ffcdd2;
+  }
+
+  .phase {
+    background: #161b22;
+    border: 1px solid #2f3336;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .phase-badge {
+    background: #f0a500;
+    color: #0f1419;
+    font-weight: bold;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .phase-title {
+    color: #e7e9ea;
+    font-size: 1.1rem;
+  }
+
+  .task-list {
+    list-style: none;
+    margin-left: 0;
+  }
+  .task-list li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    margin-bottom: 0.6rem;
+  }
+  .task-list li::before {
+    content: "▸";
+    color: #f0a500;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .learn-box {
+    background: #1a2a3a;
+    border: 1px solid #2a4a6a;
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    margin: 0.8rem 0;
+    font-size: 0.88rem;
+  }
+
+  .learn-box .label {
+    color: #71c9ce;
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .tech-tag {
+    display: inline-block;
+    background: #21262d;
+    color: #71c9ce;
+    border: 1px solid #30363d;
+    border-radius: 4px;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.78rem;
+    margin: 0.15rem;
+  }
+
+  .goal-box {
+    background: #0d2617;
+    border: 1px solid #2a6a3a;
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    margin: 0.8rem 0;
+    font-size: 0.88rem;
+  }
+
+  .goal-box .label {
+    color: #5fd07a;
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+  }
+  th {
+    background: #21262d;
+    color: #f0a500;
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #2f3336;
+  }
+  td {
+    padding: 7px 12px;
+    border: 1px solid #2f3336;
+    color: #c9d1d9;
+  }
+  tr:hover td { background: #1a2332; }
+
+  .toc {
+    background: #161b22;
+    border: 1px solid #2f3336;
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .toc-title {
+    color: #f0a500;
+    font-size: 0.95rem;
+    font-weight: bold;
+    margin-bottom: 0.6rem;
+  }
+  .toc ol { margin-left: 1.2rem; font-size: 0.88rem; color: #71c9ce; }
+  .toc ol li { margin-bottom: 0.3rem; }
+  .toc ol li a { color: #71c9ce; text-decoration: none; }
+  .toc ol li a:hover { text-decoration: underline; }
+
+  .checklist-item {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    align-items: flex-start;
+  }
+  .checklist-item input[type="checkbox"] {
+    margin-top: 0.2rem;
+    accent-color: #f0a500;
+  }
+
+  .quote {
+    background: #161b22;
+    border-left: 4px solid #71c9ce;
+    padding: 0.8rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: #8899a6;
+    font-size: 0.9rem;
+  }
+
+  .vs-java {
+    background: #1a1a2e;
+    border: 1px solid #3a3a5e;
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    margin: 0.8rem 0;
+    font-size: 0.88rem;
+  }
+  .vs-java .label {
+    color: #a78bfa;
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid #2f3336;
+    color: #536471;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<h1>Zoo 多产品线 AI 智能客服系统</h1>
+<p class="subtitle">初学者分阶段学习型项目计划 · 版本 1.0 · 2026-05-06</p>
+
+<table class="meta-table">
+  <tr><td>目标</td><td>系统掌握 AI Agent、RAG、LangChain、意图识别、召回策略等核心能力</td></tr>
+  <tr><td>前置</td><td>Java 基础，了解基本编程概念</td></tr>
+  <tr><td>语言</td><td>Python（AI/ML 主流生态）+ 少量 Java 对接（可选）</td></tr>
+  <tr><td>周期</td><td>5 个阶段，约 18 周，循序渐进</td></tr>
+  <tr><td>原则</td><td>做完每一步都能讲清楚原理，不做"黑箱"交付</td></tr>
+</table>
+
+<div class="toc">
+  <div class="toc-title">目录</div>
+  <ol>
+    <li><a href="#phase0">第 0 阶段：Python 基础与环境准备</a></li>
+    <li><a href="#phase1">第 1 阶段：构建最小可运行的 FAQ 机器人</a></li>
+    <li><a href="#phase2">第 2 阶段：引入 RAG 与向量检索</a></li>
+    <li><a href="#phase3">第 3 阶段：意图识别与对话管理</a></li>
+    <li><a href="#phase4">第 4 阶段：Agent 化升级 + 多产品线扩展</a></li>
+    <li><a href="#phase5">第 5 阶段：召回策略优化与调优</a></li>
+  </ol>
+</div>
+
+<!-- ==================== 第 0 阶段 ==================== -->
+<div class="phase" id="phase0">
+  <div class="phase-header">
+    <span class="phase-badge">第 0 阶段</span>
+    <span class="phase-title">Python 基础与环境准备</span>
+  </div>
+  <p>预计时间：<strong>第 1~2 周</strong></p>
+  <p>作为有 Java 基础的开发者，你需要先熟悉 Python 语法及 AI 开发工具链。这部分不需要深入，快速上手即可。</p>
+
+  <h3>学习目标</h3>
+  <ul class="task-list">
+    <li>Python 基本语法（数据类型、函数、类、异常处理）</li>
+    <li>pip / conda 环境管理</li>
+    <li>requests、json、pathlib 等标准库使用</li>
+    <li>Jupyter Notebook / VSCode Python 插件</li>
+    <li>了解什么是 API 调用（类比 Java 的 HTTP Client）</li>
+  </ul>
+
+  <h3>任务清单</h3>
+  <ol>
+    <li>安装 Python 3.10+，使用 conda 或 venv 创建独立环境</li>
+    <li>完成 Python 基础语法练习（可以刷一遍 Codecademy Python 课程或菜鸟教程）</li>
+    <li>写一个 Java vs Python 对照小脚本，理解两者语法的对应关系</li>
+    <li>学会用 pip 安装包：`pip install openai langchain langchain-community faiss-cpu`</li>
+  </ol>
+
+  <div class="vs-java">
+    <div class="label">Java 背景快速对照（帮助你迁移）</div>
+    <ul style="margin-bottom:0">
+      <li>Java 的 `class` → Python 的 `class`（语法略有不同）</li>
+      <li>Java 的 `List<String>` → Python 的 `list`</li>
+      <li>Java 的 `Map<String, Object>` → Python 的 `dict`</li>
+      <li>Java 的 `Optional` → Python 的 `None` 检查</li>
+      <li>Java 的 `@RestController` → Python 的 Flask/FastAPI `@app.route`</li>
+    </ul>
+  </div>
+
+  <div class="note">
+    <strong>做完后你要能回答：</strong>Python 的虚拟环境有什么用？为什么不能直接装全局包？
+  </div>
+
+  <div class="goal-box">
+    <div class="label">阶段产出</div>
+    本地可运行的 Python 环境，能独立写一个读取文件、处理数据的小脚本。
+  </div>
+</div>
+
+<!-- ==================== 第 1 阶段 ==================== -->
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <span class="phase-badge">第 1 阶段</span>
+    <span class="phase-title">构建最小可运行的 FAQ 机器人</span>
+  </div>
+  <p>预计时间：<strong>第 3~5 周</strong></p>
+  <p>这是整个项目的 MVP（最小可行产品）。你将学会：如何用 LangChain 串联 LLM 与知识库、如何构建一个完整对话流程。</p>
+
+  <h3>核心技术点</h3>
+  <div style="margin-bottom: 0.8rem">
+    <span class="tech-tag">LangChain</span>
+    <span class="tech-tag">LLM API 调用</span>
+    <span class="tech-tag">Prompt 工程</span>
+    <span class="tech-tag">FastAPI / Flask</span>
+    <span class="tech-tag">简单文本匹配</span>
+  </div>
+
+  <h3>任务清单</h3>
+
+  <h4>Week 3：调用 LLM，实现最简对话</h4>
+  <ol>
+    <li>注册 OpenAI 账号，获取 API Key（或其他兼容 API，如硅基流动、DeepSeek 等国产平替）</li>
+    <li>用 Python 调用 LLM，完成最简单的"问答"：用户问，LLM 答</li>
+    <li>学习 <strong>Prompt 工程</strong>：什么是 system prompt、user prompt、few-shot example</li>
+    <li>写一个带上下文的对话函数，模拟多轮对话（Java 里的 session 概念）</li>
+  </ol>
+
+  <h4>Week 4：接入 LangChain，构建 Chain</h4>
+  <ol>
+    <li>学习 LangChain 核心概念：
+      <ul>
+        <li><strong>Model I/O</strong>：PromptTemplate、LLM、OutputParser</li>
+        <li><strong>Chain</strong>：把多个步骤串联成一个 pipeline</li>
+        <li><strong>Memory</strong>：保存对话历史</li>
+      </ul>
+    </li>
+    <li>用 LangChain 构建一个 FAQ 问答 Chain：
+      <ul>
+        <li>用户提问 → PromptTemplate 构造提示词 → LLM 生成回答 → 返回结果</li>
+      </ul>
+    </li>
+    <li>为 Zoo 的<strong>会议服务（Meetings）</strong>产品线，手写 20~30 条 FAQ（如"如何创建会议"、"如何共享屏幕"等）</li>
+    <li>让 LLM 只基于这些 FAQ 回答，超出范围的礼貌拒绝</li>
+  </ol>
+
+  <h4>Week 5：包装成 Web 服务</h4>
+  <ol>
+    <li>学习 FastAPI 基础：路由定义、请求体、响应体</li>
+    <li>用 FastAPI 包装你的 FAQ 机器人：
+      <ul>
+        <li>`POST /chat` 接收用户消息</li>
+        <li>返回 AI 回答</li>
+      </ul>
+    </li>
+    <li>前端做一个极简 HTML 页面，调用后端 API，实现实时对话</li>
+  </ol>
+
+  <div class="learn-box">
+    <div class="label">核心概念你要理解透</div>
+    <ul style="margin-bottom:0">
+      <li><strong>Chain</strong> = 工序流水线。每个工序（Prompt → LLM → Parser）是一个环节，多个环节串联成完整流程</li>
+      <li><strong>PromptTemplate</strong> = 带占位符的提示词骨架，让同一套模板复用不同输入</li>
+      <li><strong>Memory</strong> = 对话历史存储，类似 Java 里维护一个 List&lt;Message&gt; 存会话上下文</li>
+      <li><strong>LangChain Expression Language (LCEL)</strong> = LangChain 新版本推荐的新写法，用 | 管道符串联步骤</li>
+    </ul>
+  </div>
+
+  <div class="note">
+    <strong>做完后你要能回答：</strong>LangChain 的 Chain 到底是什么？它为什么能提升开发效率？PromptTemplate 中的 `{}` 占位符是怎么被填充的？
+  </div>
+
+  <div class="goal-box">
+    <div class="label">阶段产出</div>
+    一个能跑起来的 Web 服务，输入"如何共享屏幕"，AI 返回基于 FAQ 的准确回答。前端页面可以聊天。
+  </div>
+</div>
+
+<!-- ==================== 第 2 阶段 ==================== -->
+<div class="phase" id="phase2">
+  <div class="phase-header">
+    <span class="phase-badge">第 2 阶段</span>
+    <span class="phase-title">引入 RAG 与向量检索</span>
+  </div>
+  <p>预计时间：<strong>第 6~9 周</strong></p>
+  <p>这是 AI 客服系统的<strong>核心能力</strong>。你将学会：如何把文档知识存入向量数据库，查询时如何精准召回相关内容（Recall）。</p>
+
+  <h3>核心技术点</h3>
+  <div style="margin-bottom: 0.8rem">
+    <span class="tech-tag">Embedding</span>
+    <span class="tech-tag">向量数据库</span>
+    <span class="tech-tag">FAISS / Chroma</span>
+    <span class="tech-tag">LangChain RAG Chain</span>
+    <span class="tech-tag">文档切分 (Chunking)</span>
+  </div>
+
+  <h3>任务清单</h3>
+
+  <h4>Week 6：理解 Embedding 与向量检索原理</h4>
+  <ol>
+    <li>理解什么是<strong>文本 Embedding</strong>：把文字变成一串数字向量，语义相近的文字向量也相近</li>
+    <li>用 OpenAI 的 `text-embedding-ada-002`（或国产 embedding 模型如 BGE）对 Zoo 会议服务的产品手册段落生成向量</li>
+    <li>用 <strong>余弦相似度</strong>手工计算两条文本的相似度，理解向量距离的物理意义</li>
+    <li>理解：为什么不能用关键词匹配（BM25）做语义搜索？Embedding 解决了什么问题？</li>
+  </ol>
+
+  <div class="learn-box">
+    <div class="label">关键原理</div>
+    <ul style="margin-bottom:0">
+      <li>Embedding 模型将文本映射到高维向量空间（如 1536 维）</li>
+      <li>语义相似 = 向量空间中距离近（用余弦相似度或欧氏距离衡量）</li>
+      <li>召回（Recall）= 从海量向量中找到与用户问题最相似的 Top K 个</li>
+      <li>这一步的质量直接决定后续 LLM 能否回答准确——"garbage in, garbage out"</li>
+    </ul>
+  </div>
+
+  <h4>Week 7：搭建向量数据库</h4>
+  <ol>
+    <li>选型向量数据库（初学推荐）：
+      <ul>
+        <li><strong>ChromaDB</strong>（最简单，Python 原生，适合本地学习）</li>
+        <li><strong>FAISS</strong>（Facebook 开源，支持海量向量，推荐生产级入门）</li>
+      </ul>
+    </li>
+    <li>准备 Zoo 知识文档：
+      <ul>
+        <li>会议服务产品手册（PDF/TXT）</li>
+        <li>历史工单中的常见问题与解答（脱敏后）</li>
+        <li>技术故障排查文档</li>
+      </ul>
+    </li>
+    <li>实现<strong>文档切分（Chunking）</strong>策略：
+      <ul>
+        <li>按固定长度切（如 500 字一段）</li>
+        <li>按段落切（更语义完整，推荐）</li>
+        <li>重叠切分（相邻 chunk 重叠 50~100 字，减少上下文断裂）</li>
+      </ul>
+    </li>
+    <li>生成每个 chunk 的向量，存入 FAISS/Chroma</li>
+  </ol>
+
+  <div class="warning">
+    <strong>初学者常犯的错误：</strong>chunk 切得太大或太小。太大会引入太多噪声（LLM 处理不过来）；太小会丢失上下文，导致回答不完整。建议从 300~600 字开始尝试，逐步调优。
+  </div>
+
+  <h4>Week 8：实现 RAG 检索链</h4>
+  <ol>
+    <li>构建 LangChain RAG Chain 四步走：
+      <ul>
+        <li><strong>① 问题 Embedding</strong>：用户问题 → 向量</li>
+        <li><strong>② 向量检索</strong>：在向量库中搜索 Top K 相关 chunk</li>
+        <li><strong>③ 上下文组装</strong>：将用户问题 + 召回的 chunk 组装成 Prompt</li>
+        <li><strong>④ LLM 生成</strong>：让 LLM 基于检索到的内容回答</li>
+      </ul>
+    </li>
+    <li>用 LangChain 的 `RetrievalQA` Chain 或 LCEL 写法实现上述流程</li>
+    <li>添加<strong>引用来源</strong>功能：让 LLM 的回答中标注"参考了哪篇文档的第几段"，便于用户验证</li>
+    <li>对比实验：直接让 LLM 回答 vs 加了 RAG 之后回答，测试效果差异</li>
+  </ol>
+
+  <h4>Week 9：扩展到更多产品线</h4>
+  <ol>
+    <li>为 Zoo 的<strong>通话服务（Phone）</strong>准备第二批文档，重复 Week 7~8 的流程</li>
+    <li>学习<strong>多产品线知识库隔离</strong>：不同产品的知识存不同 collection，避免跨产品干扰召回</li>
+    <li>用 Zoo 的产品场景做端到端测试：
+      <ul>
+        <li>用户问"大屏怎么投屏" → 应该召回到会议大屏知识库</li>
+        <li>用户问"耳机没声音" → 应该召回到耳机知识库</li>
+      </ul>
+    </li>
+  </ol>
+
+  <div class="learn-box">
+    <div class="label">召回策略核心概念（面试/面试也能用）</div>
+    <ul style="margin-bottom:0">
+      <li><strong>召回（Recall）</strong>：从知识库中把所有可能相关的候选都找出来。recall 低 = 好的答案根本没被召回，后面的 LLM 再强也没用</li>
+      <li><strong>精准度（Precision）</strong>：召回的结果中，有多少是真正相关的。precision 低 = 召回了大量无关内容，LLM 被噪声干扰</li>
+      <li><strong>BM25</strong>：基于关键词的传统召回算法，RAG 中作为辅助补充（embedding 召回了 Top 20，BM25 再补充 Top 5）</li>
+      <li><strong>Hybrid Search</strong>：向量检索 + BM25 混合使用，兼顾语义和关键词</li>
+    </ul>
+  </div>
+
+  <div class="note">
+    <strong>做完后你要能回答：</strong>RAG 的四步流程是什么？Embedding 和关键词匹配各自的优势是什么？为什么说召回是 RAG 的瓶颈？
+  </div>
+
+  <div class="goal-box">
+    <div class="label">阶段产出</div>
+    基于真实文档的 RAG 机器人。能自己准备文档、切分、存入向量库，并能说出每个环节的原理。可以对比"有 RAG"和"无 RAG"回答质量的差异。
+  </div>
+</div>
+
+<!-- ==================== 第 3 阶段 ==================== -->
+<div class="phase" id="phase3">
+  <div class="phase-header">
+    <span class="phase-badge">第 3 阶段</span>
+    <span class="phase-title">意图识别与对话管理</span>
+  </div>
+  <p>预计时间：<strong>第 10~13 周</strong></p>
+  <p>你将学会：如何让 AI 理解用户到底想问什么（意图识别），如何在多轮对话中记住上下文（对话管理），以及如何设计一个能真正解决问题的对话流程。</p>
+
+  <h3>核心技术点</h3>
+  <div style="margin-bottom: 0.8rem">
+    <span class="tech-tag">意图识别</span>
+    <span class="tech-tag">多分类模型 / LLM Classification</span>
+    <span class="tech-tag">槽位填充 (Slot Filling)</span>
+    <span class="tech-tag">对话状态管理</span>
+    <span class="tech-tag">多轮追问</span>
+  </div>
+
+  <h3>任务清单</h3>
+
+  <h4>Week 10：意图识别——用户到底想问什么</h4>
+  <ol>
+    <li>理解意图识别（Intent Detection）的业务价值：不同意图 → 不同处理流程</li>
+    <li>设计 Zoo 会议服务的意图分类体系（参考原文，预设 8~10 个核心意图）：
+      <table>
+        <tr><th>意图 ID</th><th>意图名称</th><th>示例问法</th></tr>
+        <tr><td> greet</td><td>问候/寒暄</td><td>"你好"</td></tr>
+        <tr><td> meeting_create</td><td>创建会议</td><td>"怎么发起一个会议"</td></tr>
+        <tr><td> screen_share</td><td>共享屏幕</td><td>"如何共享我的屏幕"</td></tr>
+        <tr><td> troubleshoot_audio</td><td>音频故障</td><td>"对方听不到我的声音"</td></tr>
+        <tr><td> schedule_meeting</td><td>预约会议</td><td>"我想预约明天下午3点的会"</td></tr>
+        <tr><td> general_inquiry</td><td>通用咨询</td><td>"Zoom是什么"</td></tr>
+        <tr><td> out_of_scope</td><td>范围外</td><td>"今天天气怎么样"</td></tr>
+      </table>
+    </li>
+    <li>用<strong>LLM 做意图分类</strong>（最简方案）：
+      <ul>
+        <li>写一个 Prompt："你是一个意图分类器。用户消息属于以下哪个类别：greet, meeting_create, screen_share, troubleshoot_audio... 请只输出类别名称。"</li>
+        <li>评估准确率，观察哪些意图容易混淆</li>
+      </ul>
+    </li>
+    <li>如果想进阶：了解 BERT/RoBERTa 微调做意图分类的流程（初学可跳过，后续有余力再做）</li>
+  </ol>
+
+  <div class="learn-box">
+    <div class="label">意图识别方案对比</div>
+    <ul style="margin-bottom:0">
+      <li><strong>LLM 分类</strong>（本阶段用）：最简单，无需训练数据，依赖 Prompt 质量。适合意图类型少、表述清晰的场景</li>
+      <li><strong>微调小模型</strong>（进阶）：用标注数据 fine-tune BERT，适合意图多、表述差异大的生产场景</li>
+      <li><strong>规则兜底</strong>：正则匹配关键词，如"会议"+"创建" → meeting_create。响应快，但覆盖率有限</li>
+    </ul>
+  </div>
+
+  <h4>Week 11：多轮对话与槽位填充</h4>
+  <ol>
+    <li>理解"槽位填充（Slot Filling）"：收集解决用户问题所需的必要信息
+      <ul>
+        <li>例如：故障排查"耳机没声音"需要知道：<strong>设备型号</strong>、<strong>连接方式</strong>（Wi-Fi/有线）、<strong>发生场景</strong>（仅会议中/一直无声）</li>
+      </ul>
+    </li>
+    <li>用 LangChain 的 <strong>ConversationBufferMemory</strong> 或 <strong>ConversationSummaryMemory</strong> 存储对话历史</li>
+    <li>设计对话流程图：
+      <ul>
+        <li>用户："耳机没声音"</li>
+        <li>机器人："请问您用的是哪款耳机型号？"</li>
+        <li>用户："Poly CCX 500"</li>
+        <li>机器人："请问是仅在会议中无声，还是一直都没有声音？"</li>
+        <li>... 收集完槽位后，再走 RAG 检索精确答案</li>
+      </ul>
+    </li>
+    <li>用 LangChain 的 <strong>Agent</strong> 机制处理条件分支（if intent == troubleshoot_audio → 进入故障排查分支）</li>
+  </ol>
+
+  <div class="learn-box">
+    <div class="label">对话状态机 vs LangChain Agent</div>
+    <ul style="margin-bottom:0">
+      <li><strong>对话状态机</strong>：Java 开发者更好理解——状态（Start/AskDevice/AskScenario/Resolved）和状态转换规则</li>
+      <li><strong>LangChain Agent</strong>：用 LLM 决定下一步行动（类比 AI Controller）。工具（Tool）= 可调用的函数（如查 FAQ、查数据库）。Agent 根据 LLM 的"思考"选择用哪个工具</li>
+      <li>本阶段用 LangChain Agent 即可，不必手写状态机</li>
+    </ul>
+  </div>
+
+  <h4>Week 12：产品识别——自动判断用户问的是哪个产品</h4>
+  <ol>
+    <li>参考原文的"产品识别器"设计，在用户第一句话就判断产品类别：
+      <ul>
+        <li>会议服务 / 可视电话 / 耳机 / 鼠标 / 会议大屏 / 通话服务 / 通用</li>
+      </ul>
+    </li>
+    <li>用 LLM 分类 + 关键词规则双重校验：
+      <ul>
+        <li>LLM 分类：置信度高（>0.8）直接用</li>
+        <li>置信度低 → 主动询问用户"您咨询的是哪款产品？"</li>
+      </ul>
+    </li>
+    <li>产品确定后，加载对应知识库 collection，减少无关召回</li>
+  </ol>
+
+  <h4>Week 13：集成测试 + 对话质量评估</h4>
+  <ol>
+    <li>端到端测试：完整走一遍产品识别 → 意图识别 → 槽位填充 → RAG 检索 → 回答生成</li>
+    <li>建立评估集：
+      <ul>
+        <li>收集 50~100 条真实用户问法（可以是模拟的，但要有代表性）</li>
+        <li>人工标注：正确的意图、正确的产品、期望的回答</li>
+      </ul>
+    </li>
+    <li>评估指标：
+      <table>
+        <tr><th>指标</th><th>含义</th><th>目标</th></tr>
+        <tr><td>意图准确率</td><td>意图识别正确的比例</td><td>> 90%</td></tr>
+        <tr><td>产品识别率</td><td>产品分类正确的比例</td><td>> 95%</td></tr>
+        <tr><td>回答准确率</td><td>回答符合预期的比例</td><td>> 80%</td></tr>
+        <tr><td>对话完成率</td><td>用户问题被解决的比例</td><td>> 70%</td></tr>
+      </table>
+    </li>
+    <li>整理测试结果，找出高频失败 case，分析原因（召回失败？意图误判？LLM 幻觉？）</li>
+  </ol>
+
+  <div class="note">
+    <strong>做完后你要能回答：</strong>意图识别和实体抽取的区别是什么？槽位填充为什么重要？LangChain Agent 的 ReAct 模式是什么原理？
+  </div>
+
+  <div class="goal-box">
+    <div class="label">阶段产出</div>
+    一个完整的多轮对话客服机器人：能自动判断产品线 → 判断意图 → 收集必要信息 → RAG 检索 → 生成回答。输出本阶段评估报告。
+  </div>
+</div>
+
+<!-- ==================== 第 4 阶段 ==================== -->
+<div class="phase" id="phase4">
+  <div class="phase-header">
+    <span class="phase-badge">第 4 阶段</span>
+    <span class="phase-title">Agent 化升级 + 多产品线扩展</span>
+  </div>
+  <p>预计时间：<strong>第 14~16 周</strong></p>
+  <p>你将理解什么是<strong>AI Agent</strong>，如何让 AI 主动调用工具、规划行动，并将其落地到 Zoo 的 6 大产品线。</p>
+
+  <h3>核心技术点</h3>
+  <div style="margin-bottom: 0.8rem">
+    <span class="tech-tag">LangChain Agent</span>
+    <span class="tech-tag">ReAct 模式</span>
+    <span class="tech-tag">Tool Calling</span>
+    <span class="tech-tag">Function Calling</span>
+    <span class="tech-tag">多产品线架构</span>
+  </div>
+
+  <h3>任务清单</h3>
+
+  <h4>Week 14：深入理解 AI Agent</h4>
+  <ol>
+    <li>学习 AI Agent 的核心概念：
+      <ul>
+        <li><strong>Agent</strong> = LLM + 工具 + 规划能力。能自主决定"我要做什么"</li>
+        <li><strong>Tool</strong> = Agent 可以调用的外部能力（查数据库、调用 API、计算器、搜索）</li>
+        <li><strong>ReAct</strong>（Reason + Act）= LLM 思考"我现在有什么信息，接下来该做什么"，然后执行 action，再观察结果</li>
+        <li><strong>Tool Calling / Function Calling</strong> = LLM 输出结构化的工具调用指令，程序解析并执行</li>
+      </ul>
+    </li>
+    <li>用 LangChain Agent 重构第 3 阶段的代码：
+      <ul>
+        <li>把产品识别、意图识别、RAG 检索、人机转接判断都做成 Tool</li>
+        <li>Agent 根据对话上下文自主选择调用哪个 Tool</li>
+      </ul>
+    </li>
+    <li>为 Agent 添加"自我检查"能力：生成回答后，让 Agent 判断置信度，低则转人工</li>
+  </ol>
+
+  <div class="learn-box">
+    <div class="label">Agent 实战架构（类比理解）</div>
+    <ul style="margin-bottom:0">
+      <li>把 Java 的思路翻译过来：Agent = 一个极度灵活的 Controller，不需要硬编码 if-else，它自己会推理下一步</li>
+      <li>Tool = 接口（Interface）。每个 Tool 有 name、description、function。Agent 根据 description 判断用哪个</li>
+      <li>Tool Calling = LLM 输出的 JSON，告诉程序"调用 tool_X，参数是 {a:1, b:2}"，程序解析后执行</li>
+    </ul>
+  </div>
+
+  <h4>Week 15：扩展到全部 6 条产品线</h4>
+  <ol>
+    <li>为剩余 4 条产品线准备知识库：
+      <table>
+        <tr><th>产品线</th><th>典型意图</th><th>知识文档来源</th></tr>
+        <tr><td>可视电话</td><td>设备激活、固件升级、音视频配置</td><td>产品手册 PDF</td></tr>
+        <tr><td>耳机</td><td>连接配对、音质问题、认证查询</td><td>FAQ + 工单</td></tr>
+        <tr><td>鼠标</td><td>大屏控制、批注操作、配对问题</td><td>快速入门指南</td></tr>
+        <tr><td>会议大屏</td><td>投屏、白板使用、无法入会</td><td>运维文档</td></tr>
+      </table>
+    </li>
+    <li>复用第 2 阶段的 RAG 流程，为每条产品线建立独立的向量 collection</li>
+    <li>复用第 3 阶段的意图分类体系，为每条产品线定义专属意图</li>
+    <li>添加产品切换能力：用户中途换话题（如"对了，耳机怎么连"），Agent 能动态切换知识库</li>
+  </ol>
+
+  <h4>Week 16：添加工具调用能力（Function Calling）</h4>
+  <ol>
+    <li>设计并实现几个实用 Tool：
+      <ul>
+        <li><strong>QueryProductDoc</strong>：查 Zoo 产品文档（RAG）</li>
+        <li><strong>QueryFAQ</strong>：查 FAQ 数据库（精确匹配）</li>
+        <li><strong>CheckOrderStatus</strong>：查订单状态（模拟 API 调用，不接真实支付系统）</li>
+        <li><strong>CreateTicket</strong>：创建人工工单（输出结构化工单信息，用于转接人工）</li>
+        <li><strong>EscalateToHuman</strong>：判断是否需要转人工</li>
+      </ul>
+    </li>
+    <li>用 OpenAI Function Calling（或 LangChain Agent 的 tool_call 机制）实现工具选择</li>
+    <li>处理工具调用失败的情况（超时、API 不可用），确保对话不中断</li>
+  </ol>
+
+  <div class="note">
+    <strong>做完后你要能回答：</strong>AI Agent 和普通 Chain 的本质区别是什么？ReAct 循环是怎么工作的？Function Calling 和普通 Prompt 调用工具相比有什么优势？
+  </div>
+
+  <div class="goal-box">
+    <div class="label">阶段产出</div>
+    一个 Agent 化的 Zoo 全产品线客服系统。能自动选择工具、自主决策下一步。可演示：用户问"耳机连接问题→排查→解决或转人工"全流程。
+  </div>
+</div>
+
+<!-- ==================== 第 5 阶段 ==================== -->
+<div class="phase" id="phase5">
+  <div class="phase-header">
+    <span class="phase-badge">第 5 阶段</span>
+    <span class="phase-title">召回策略优化与调优</span>
+  </div>
+  <p>预计时间：<strong>第 17~18 周</strong></p>
+  <p>这是提升系统质量的关键阶段。你将学会：如何量化评估召回质量、如何优化 chunk 策略、如何做 A/B 测试，以及如何持续迭代。</p>
+
+  <h3>核心技术点</h3>
+  <div style="margin-bottom: 0.8rem">
+    <span class="tech-tag">召回率评估</span>
+    <span class="tech-tag">Chunk 策略调优</span>
+    <span class="tech-tag">Hybrid Search</span>
+    <span class="tech-tag">重排序 (ReRank)</span>
+    <span class="tech-tag">A/B 测试</span>
+    <span class="tech-tag">Prompt 调优</span>
+  </div>
+
+  <h3>任务清单</h3>
+
+  <h4>Week 17：召回质量分析与优化</h4>
+  <ol>
+    <li>建立召回评估集：
+      <ul>
+        <li>准备 100 条测试问题，每条标注"期望召回的文档"</li>
+        <li>计算召回率（Recall@K）：Top K 结果中包含正确答案的比例</li>
+      </ul>
+    </li>
+    <li>分析召回失败的 case：
+      <ul>
+        <li><strong>Embedding 模型不合适</strong>？换用 BGE、Sentence-BERT 等中文友好的 embedding 模型</li>
+        <li><strong>Chunk 切分不合理</strong>？尝试不同 chunk_size（256/512/1024）和 overlap</li>
+        <li><strong>关键词丢失</strong>？引入 BM25 补充关键词召回（Hybrid Search）</li>
+        <li><strong>向量库参数问题</strong>？调整 FAISS 的 nprobe（搜索精度参数）</li>
+      </ul>
+    </li>
+    <li>实现并对比以下召回策略：
+      <table>
+        <tr><th>策略</th><th>做法</th><th>适用场景</th></tr>
+        <tr><td>纯向量检索</td><td>只靠 Embedding 相似度</td><td>语义相近、表述多样的问题</td></tr>
+        <tr><td>BM25</td><td>关键词精确匹配</td><td>含具体型号、错误码的问题</td></tr>
+        <tr><td>Hybrid Search</td><td>向量 + BM25 加权混合</td><td>通用场景，推荐默认方案</td></tr>
+        <tr><td>Rerank</td><td>先召回 Top 20，再用 Cross-Encoder 重排</td><td>召回量大、精确度要求高</td></tr>
+      </table>
+    </li>
+    <li>用 <strong>LangChain 的 EnsembleRetriever</strong> 或手写加权逻辑实现 Hybrid Search</li>
+    <li>尝试 <strong>ReRank</strong>：用 BGE-Reranker 或 Cohere Rerank API 对召回结果重新排序</li>
+  </ol>
+
+  <div class="learn-box">
+    <div class="label">召回优化调参经验（实战技巧）</div>
+    <ul style="margin-bottom:0">
+      <li>先测 Recall@5（Top 5 召回准确率），如果低于 80%，说明 embedding 模型或 chunk 策略有问题</li>
+      <li>中文场景推荐 embedding 模型：<code>BGE-large-zh</code>、<code>m3e-large</code>、<code>text2vec-base-chinese</code></li>
+      <li>Hybrid Search 的权重比例（向量:BM25）可以从 0.7:0.3 开始调</li>
+      <li>Rerank 是召回的最后一道关卡，适合对精确度要求极高的场景（如医疗、金融客服）</li>
+    </ul>
+  </div>
+
+  <h4>Week 18：Prompt 调优 + A/B 测试 + 上线总结</h4>
+  <ol>
+    <li>Prompt 调优（迭代式）：
+      <ul>
+        <li>收集低质量回答的 case，分析 Prompt 哪里引导不足</li>
+        <li>逐步优化 system prompt：添加回答格式要求、添加"拒答策略"、添加引用标注指令</li>
+        <li>用 few-shot example（在 Prompt 中加示例）提升 LLM 对特定意图的回答质量</li>
+      </ul>
+    </li>
+    <li>A/B 测试设计（轻量版）：
+      <ul>
+        <li>同一问题，对比两种召回策略的最终回答质量</li>
+        <li>对比不同 Prompt 版本的效果</li>
+        <li>记录每次实验的参数和结果，建立实验日志</li>
+      </ul>
+    </li>
+    <li>系统总结（重要！做完后能讲出来）：
+      <ul>
+        <li>整理项目架构图</li>
+        <li>写出每个阶段的技术选型理由</li>
+        <li>记录踩坑经历和解决方案</li>
+        <li>整理一份"我学到了什么"的复盘文档</li>
+      </ul>
+    </li>
+    <li>可选：部署到云端（阿里云函数计算、Railway、Render 等免费额度），实现公网可访问</li>
+  </ol>
+
+  <div class="note">
+    <strong>做完后你要能回答：</strong>如何量化评估一个 RAG 系统？Recall@K 怎么算？Hybrid Search 的权重怎么定？ReRank 的原理是什么？你在调优过程中发现了哪些规律？
+  </div>
+
+  <div class="goal-box">
+    <div class="label">阶段产出</div>
+    一份完整的召回策略对比实验报告 + 调优记录 + 项目复盘文档。能向面试官或同事完整讲解：从 0 到 1 搭建一个 AI 客服系统的全过程。
+  </div>
+</div>
+
+<!-- ==================== 总结 ==================== -->
+<h2>全程学习路径总结</h2>
+
+<table>
+  <tr><th>阶段</th><th>核心能力</th><th>关键技术</th><th>时间</th></tr>
+  <tr><td>第 0 阶段</td><td>Python 基础</td><td>Python 语法、环境管理</td><td>Week 1~2</td></tr>
+  <tr><td>第 1 阶段</td><td>LLM + LangChain 入门</td><td>LangChain Chain、PromptTemplate、FastAPI</td><td>Week 3~5</td></tr>
+  <tr><td>第 2 阶段</td><td>RAG 核心能力</td><td>Embedding、向量库、文档切分、RAG Chain</td><td>Week 6~9</td></tr>
+  <tr><td>第 3 阶段</td><td>对话智能</td><td>意图识别、槽位填充、多轮对话、产品识别</td><td>Week 10~13</td></tr>
+  <tr><td>第 4 阶段</td><td>Agent 进阶</td><td>LangChain Agent、Tool Calling、ReAct、多产品线</td><td>Week 14~16</td></tr>
+  <tr><td>第 5 阶段</td><td>系统调优</td><td>召回评估、Hybrid Search、ReRank、A/B 测试</td><td>Week 17~18</td></tr>
+</table>
+
+<h2>每阶段必须回答的 3 个问题</h2>
+<p>每个阶段完成后，用自己的话写下答案，写在项目的 <code>NOTES.md</code> 里：</p>
+<ol>
+  <li>这个阶段的核心原理是什么？（用自己的语言，不要抄文档）</li>
+  <li>我遇到了什么坑，是怎么解决的？</li>
+  <li>这个技术和 Java 世界的什么概念类似？有什么区别？</li>
+</ol>
+
+<h2>推荐学习资源</h2>
+<ul>
+  <li><strong>LangChain 官方文档</strong>：<a href="https://python.langchain.com" style="color:#71c9ce">https://python.langchain.com</a> — 必读，每个组件都有详细教程</li>
+  <li><strong>LangChain 中文网</strong>：<a href="https://www.langchain.com.cn" style="color:#71c9ce">https://www.langchain.com.cn</a></li>
+  <li><strong>RAG 实战：构建企业级知识库问答系统</strong>（书籍 or GitHub 搜索相关开源项目）</li>
+  <li><strong>OpenAI Function Calling 官方文档</strong>：理解如何让 LLM 调用工具</li>
+  <li><strong>BGE  embedding 模型</strong>：<a href="https://github.com/FlagOpen/FlagEmbedding" style="color:#71c9ce">https://github.com/FlagOpen/FlagEmbedding</a></li>
+  <li><strong>FAISS 官方教程</strong>：Facebook 的向量检索库文档</li>
+</ul>
+
+<h2>技术栈全景图</h2>
+<div style="background:#161b22;border:1px solid #2f3336;border-radius:8px;padding:1.2rem;font-size:0.88rem">
+  <p style="margin-bottom:0.5rem"><strong style="color:#f0a500">前端</strong>：HTML + JS（极简）/ React（进阶）</p>
+  <p style="margin-bottom:0.5rem"><strong style="color:#f0a500">后端</strong>：Python FastAPI / Flask</p>
+  <p style="margin-bottom:0.5rem"><strong style="color:#f0a500">AI 框架</strong>：LangChain / LangGraph</p>
+  <p style="margin-bottom:0.5rem"><strong style="color:#f0a500">LLM</strong>：OpenAI GPT / 硅基流动 / DeepSeek / 阿里通义（按需切换）</p>
+  <p style="margin-bottom:0.5rem"><strong style="color:#f0a500">Embedding</strong>：OpenAI text-embedding-ada-002 / BGE / m3e</p>
+  <p style="margin-bottom:0.5rem"><strong style="color:#f0a500">向量数据库</strong>：FAISS / ChromaDB</p>
+  <p style="margin-bottom:0.5rem"><strong style="color:#f0a500">知识库</strong>：PDF/TXT 文档、FAQ、故障树</p>
+  <p style="margin-bottom:0"><strong style="color:#f0a500">评估</strong>：Recall@K、BLEU/ROUGE（参考）、人工评估</p>
+</div>
+
+<div class="quote">
+  这个计划的核心原则是：每一步都能做出来，每一步都能讲清楚原理。你不需要一口气学完 Python、LangChain、RAG、Agent 所有内容。踏踏实实走完这 5 个阶段，你将拥有一个完整的 AI 客服系统项目经验，以及对 RAG + Agent 核心能力的深刻理解。
+</div>
+
+<footer>
+  基于 DeepSeek 多产品线 AI 智能客服系统设计方案改编 · 初学者友好版 · 2026-05-06<br>
+  Zoo 为虚构企业名称（原文 Zoom 替换），本计划用于 AI 学习目的
+</footer>
+
+</body>
+</html>
