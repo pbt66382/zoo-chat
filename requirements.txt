@@ -1,22 +1,23 @@
-# Zoo AI Chat - Phase 1 Dependencies
-# Core AI/ML
+# Zoo AI Chat - Phase 1 依赖包
+
+# AI/ML 核心
 langchain>=0.3.0
 langchain-core>=0.3.0
 langchain-community>=0.3.0
 
-# LLM Provider - DeepSeek (OpenAI-compatible via langchain-community)
-# Note: langchain-openai is deprecated; using langchain-community's ChatOpenAI
+# LLM 提供方 - DeepSeek（通过 langchain-community 的 ChatOpenAI 兼容 OpenAI 接口）
+# 注意：langchain-openai 已废弃；使用 langchain-community 中的 ChatOpenAI
 
-# Web Framework
+# Web 框架
 fastapi>=0.110.0
 uvicorn[standard]>=0.29.0
 
-# HTTP client
+# HTTP 客户端
 httpx>=0.27.0
 
-# Environment management
+# 环境变量管理
 python-dotenv>=1.0.1
 
-# Testing
+# 测试
 pytest>=8.2.0
 pytest-asyncio>=0.23.0

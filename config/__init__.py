@@ -1,3 +1,3 @@
 """
-Configuration module for Zoo AI Chat.
+配置模块。
 """

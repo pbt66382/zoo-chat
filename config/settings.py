@@ -1,6 +1,6 @@
 """
-Configuration management for Zoo AI Chat.
-Loads settings from .env file and provides typed access throughout the app.
+Zoo AI Chat 配置管理模块。
+从 .env 文件加载配置，为整个应用提供类型化的配置访问。
 """
 import os
 from functools import lru_cache
@@ -8,34 +8,34 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-# Load .env file from project root
+# 从项目根目录加载 .env 文件
 _project_root = Path(__file__).parent.parent
 load_dotenv(_project_root / ".env")
 
 
 class Settings:
-    """Application settings loaded from environment variables."""
+    """从环境变量加载的应用配置。"""
 
-    # DeepSeek API
+    # DeepSeek API 配置
     deepseek_api_key: str = os.getenv("DEEPSEEK_API_KEY", "")
     deepseek_base_url: str = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
     deepseek_model: str = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 
-    # Application
+    # 应用配置
     app_host: str = os.getenv("APP_HOST", "0.0.0.0")
     app_port: int = int(os.getenv("APP_PORT", "8000"))
     debug: bool = os.getenv("DEBUG", "true").lower() in ("true", "1", "yes")
 
-    # LLM Settings
+    # LLM 配置
     temperature: float = float(os.getenv("TEMPERATURE", "0.7"))
     max_tokens: int = int(os.getenv("MAX_TOKENS", "512"))
 
-    # Data paths
+    # 数据文件路径
     data_dir: Path = _project_root / "data"
     faq_meetings_path: Path = data_dir / "faq_meetings.json"
 
 
 @lru_cache
 def get_settings() -> Settings:
-    """Get cached settings instance."""
+    """获取缓存的配置实例（单例模式）。"""
     return Settings()

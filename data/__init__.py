@@ -1,6 +1,6 @@
 """
-FAQ data module for Zoo Meetings product line.
-Exports the FAQ_MEETINGS list from faq_meetings.json.
+Zoo 会议服务产品线 FAQ 数据模块。
+从 faq_meetings.json 加载并导出 FAQ_MEETINGS 列表。
 """
 import json
 from pathlib import Path

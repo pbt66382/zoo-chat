@@ -1,6 +1,6 @@
 """
-DeepSeek LLM client wrapper.
-Uses LangChain's ChatOpenAI with OpenAI-compatible interface to connect to DeepSeek.
+DeepSeek LLM 客户端封装模块。
+使用 LangChain 的 ChatOpenAI（OpenAI 兼容接口）连接 DeepSeek。
 """
 from typing import List, Dict, Any
 
@@ -12,18 +12,18 @@ from config.settings import get_settings
 
 def get_llm() -> BaseChatModel:
     """
-    Get a configured DeepSeek LLM instance.
-    
-    DeepSeek uses an OpenAI-compatible API, so we use ChatOpenAI with:
-    - base_url pointing to DeepSeek API endpoint
-    - api_key from .env
-    - model name (deepseek-chat)
-    
-    Returns:
-        Configured ChatOpenAI instance (compatible with BaseChatModel)
+    获取配置好的 DeepSeek LLM 实例。
+
+    DeepSeek 使用 OpenAI 兼容接口，因此使用 ChatOpenAI：
+    - base_url 指向 DeepSeek API 端点
+    - api_key 从 .env 读取
+    - model 名称为 deepseek-chat
+
+    返回:
+        配置好的 ChatOpenAI 实例（兼容 BaseChatModel）
     """
     settings = get_settings()
-    
+
     llm = ChatOpenAI(
         model=settings.deepseek_model,
         base_url=settings.deepseek_base_url,
@@ -31,23 +31,23 @@ def get_llm() -> BaseChatModel:
         temperature=settings.temperature,
         max_tokens=settings.max_tokens,
     )
-    
+
     return llm
 
 
 def format_chat_history(messages: List[Dict[str, Any]]) -> str:
     """
-    Format chat history for inclusion in a prompt context.
-    
-    Args:
-        messages: List of message dicts with 'role' and 'content' keys
-        
-    Returns:
-        Formatted string representation of the conversation history
+    格式化对话历史，供 Prompt 上下文使用。
+
+    参数:
+        messages: 消息列表，每个消息包含 'role' 和 'content'
+
+    返回:
+        格式化的对话历史字符串
     """
     if not messages:
         return "（无历史对话）"
-    
+
     formatted = []
     for msg in messages:
         role = msg.get("role", "user")
@@ -58,5 +58,5 @@ def format_chat_history(messages: List[Dict[str, Any]]) -> str:
             formatted.append(f"助手: {content}")
         elif role == "system":
             formatted.append(f"系统: {content}")
-    
+
     return "\n".join(formatted)

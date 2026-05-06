@@ -1,3 +1,3 @@
 """
-Chains module - LangChain chain implementations.
+Chains 模块 - LangChain Chain 实现。
 """
