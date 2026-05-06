@@ -8,6 +8,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 from app.chains.faq_chain import invoke_faq_chain
+from app.llm.deepseek_client import format_chat_history
 
 
 # --- 请求/响应模型 ---
@@ -40,12 +41,13 @@ router = APIRouter(prefix="/api", tags=["chat"])
 @router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest) -> ChatResponse:
     """
-    处理用户消息，返回 AI 生成的回答。
+    处理用户消息，返回 AI 生成的回答（支持多轮对话记忆）。
 
     流程：
     1. 接收用户消息
-    2. 调用 FAQ Chain（LLM + LangChain + DeepSeek）
-    3. 返回生成的回答及元数据
+    2. 将历史对话格式化为字符串（Memory）
+    3. 调用 FAQ Chain（LLM + LangChain + DeepSeek）
+    4. 返回生成的回答及元数据
 
     参数:
         request: 包含用户消息的 ChatRequest
@@ -58,8 +60,16 @@ def chat(request: ChatRequest) -> ChatResponse:
     # 如果没有提供 session_id，生成一个
     session_id = request.session_id or f"session_{int(start_time * 1000)}"
 
+    # 将历史对话格式化为字符串传给 Chain（实现 Memory）
+    history_text = ""
+    if request.history:
+        history_text = format_chat_history([
+            {"role": msg.role, "content": msg.content}
+            for msg in request.history
+        ])
+
     try:
-        answer = invoke_faq_chain(request.message)
+        answer = invoke_faq_chain(request.message, history=history_text)
     except Exception as e:
         raise HTTPException(
             status_code=500,

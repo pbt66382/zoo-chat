@@ -351,6 +351,7 @@
 
   <script>
     let sessionId = null;
+    let history = [];  // 维护对话历史，供多轮对话使用
     const chatContainer = document.getElementById('chatContainer');
     const messageInput = document.getElementById('messageInput');
     const sendBtn = document.getElementById('sendBtn');
@@ -454,6 +455,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message: message,
+            history: history,
             session_id: sessionId
           })
         });
@@ -464,6 +466,10 @@
 
         const data = await response.json();
         sessionId = data.session_id;
+
+        // 将本轮对话存入 history，供下一轮使用（Memory 机制）
+        history.push({ role: 'user', content: message });
+        history.push({ role: 'assistant', content: data.answer });
 
         removeLoading();
         addMessage('assistant', data.answer);

@@ -74,8 +74,38 @@ app.add_middleware(
 | `FastAPI @router.post` | `@RestController` | 非常相似，FastAPI 的优势是自动生成 OpenAPI 文档 |
 | `.env` 配置 | Spring 的 `@ConfigurationProperties` | 理念相同，Spring 更企业化，Python 更轻量 |
 | `lru_cache` | Spring `@Cacheable` | 作用相同，但 Python 的装饰器语法更简洁 |
+| Memory（对话历史） | `HttpSession` / `Session.setAttribute()` | 都把上下文存起来供后续请求使用 |
 
 **最核心的区别**：Java 是**确定性**的，LLM 是**概率性**的。在 Java 里，同样的输入一定有同样的输出；LLM 每次调用可能略有不同（由 temperature 控制）。这个思维转换是最重要的。
+
+### 4. 什么是 Memory？为什么 Phase 1 也要有？
+
+LLM 本身**没有记忆**，每次 `POST /api/chat` 都是独立请求，LLM 不知道你之前问过什么。
+
+**Java 的类比**：每个用户请求从 `HttpSession` 里取 `List<Message>` 拼进 Prompt。Memory 本质上就是这件事。
+
+**Phase 1 的实现**：把前端传来的 `history`（JSON 数组）格式化成字符串，注入到 system prompt 的 `【历史对话】` 占位符里：
+
+```
+你是一个客服助手，FAQ 是：{faq_context}
+
+【历史对话】：
+用户: 如何创建会议
+助手: 点击"新建会议"按钮即可创建...
+用户: 可以设密码吗
+助手: 在会议设置中可以开启会议密码...
+
+用户问题: 可以设几个密码？
+
+↓ DeepSeek 基于历史上下文理解 "密码" 指的是 "会议密码"
+```
+
+**为什么不用 LangChain 内置 Memory 组件**（如 `ConversationBufferMemory`）？
+- LangChain 的 Memory 组件是为**对话式 Agent**设计的，功能较重
+- Phase 1 是单后端服务 + 前端维护 history 的简单模式，前端最清楚对话上下文
+- 直接在 system prompt 里拼接历史，够用且透明可控
+
+**Phase 3 会升级为**：LangChain 内置 `ConversationBufferMemory`，后端自己管理会话历史，支持 Session 持久化（Redis 等）
 
 ---
 

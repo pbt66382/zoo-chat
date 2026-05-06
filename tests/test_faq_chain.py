@@ -143,3 +143,17 @@ class TestChainIntegration:
 
         assert isinstance(result, str)
         assert len(result) > 0
+
+    def test_chain_invoke_with_history(self):
+        """带历史对话的 Chain 应正确传递 history 参数。"""
+        mock_llm = self._make_mock_llm("在会议设置中开启会议密码即可。")
+
+        with patch('app.chains.faq_chain.get_llm', return_value=mock_llm):
+            from app.chains.faq_chain import invoke_faq_chain
+            result = invoke_faq_chain(
+                "可以设密码吗",
+                history="用户: 如何创建会议\n助手: 点击新建会议按钮即可。",
+            )
+
+        assert isinstance(result, str)
+        assert len(result) > 0
