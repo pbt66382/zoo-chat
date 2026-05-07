@@ -1,20 +1,94 @@
 """
-LangChain FAQ Chain 模块 - Zoo 会议服务产品线。
-使用 LCEL（LangChain Expression Language）构建流水线：
-  PromptTemplate -> ChatOpenAI -> StrOutputParser
+LangChain FAQ Chain 模块 - Zoo 会议服务产品线（Phase 2 RAG）。
 """
 from typing import Optional
 
+from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 
 from app.llm.deepseek_client import get_llm
+from app.llm.embedding_client import get_embedding_client
+from config.settings import get_settings
+
+
+SYSTEM_PROMPT_V2 = """你是一个专业的 Zoo 会议服务客服助手。
+
+以下是与用户问题相关的 FAQ 参考内容：
+{context}
+
+请根据以上参考内容回答用户问题。如果找不到相关信息，请礼貌告知用户。
+{history}"""
+
+
+def _retrieve_docs(query: str, top_k: int = 3) -> list[Document]:
+    """Milvus 向量检索。"""
+    from pymilvus import MilvusClient
+
+    settings = get_settings()
+    embeddings = get_embedding_client()
+    vector = embeddings.embed_query(query)
+    client = MilvusClient(uri=f"http://{settings.milvus_host}:{settings.milvus_port}")
+    results = client.search(
+        collection_name=settings.milvus_collection,
+        data=[vector],
+        limit=top_k,
+        output_fields=["faq_id", "tags", "text"],
+    )
+    docs = []
+    for hit in results[0]:
+        entity = hit.get("entity", {})
+        docs.append(Document(
+            page_content=entity.get("text", ""),
+            metadata={
+                "faq_id": entity.get("faq_id", "?"),
+                "tags": entity.get("tags", ""),
+                "score": hit.get("distance", 0.0),
+            },
+        ))
+    return docs
+
+
+def _format_context(docs: list[Document]) -> str:
+    if not docs:
+        return "（未找到相关 FAQ，请告知用户暂无相关信息）"
+    lines = []
+    for doc in docs:
+        faq_id = doc.metadata.get("faq_id", "?")
+        lines.append(f"【问题 {faq_id}】{doc.page_content}")
+    return "\n".join(lines)
+
+
+def build_rag_chain(history: str = ""):
+    llm = get_llm()
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", SYSTEM_PROMPT_V2),
+        ("human", "{question}"),
+    ])
+    chain = (
+        {
+            "context": lambda query: _format_context(_retrieve_docs(query)),
+            "question": RunnablePassthrough(),
+            "history": lambda _: f"【历史对话】\n{history}" if history else "【历史对话】（无）",
+        }
+        | prompt
+        | llm
+        | StrOutputParser()
+    )
+    return chain
+
+
+def invoke_rag_chain(question: str, history: str = "") -> str:
+    chain = build_rag_chain(history=history)
+    return chain.invoke(question)
+
+
+# Phase 1 旧代码（向后兼容）
 from data import FAQ_MEETINGS
 
 
 def _build_faq_context() -> str:
-    """将所有 FAQ 问答对拼接成供 Prompt 使用的字符串。"""
     lines = []
     for faq in FAQ_MEETINGS:
         lines.append(f"【问题{faq['id']}】{faq['question']}")
@@ -26,114 +100,7 @@ def _build_faq_context() -> str:
 FAQ_CONTEXT = _build_faq_context()
 
 
-# 系统 Prompt 模板
-SYSTEM_PROMPT_BASE = """你是一个专业的 Zoo 会议服务客服助手。请根据以下 FAQ 知识库回答用户的问题。
-
-重要规则：
-1. 只根据提供的 FAQ 内容回答，不要编造信息
-2. 如果用户问题在 FAQ 中找不到相关信息，请礼貌地说："抱歉，这个问题我暂时无法回答，建议您联系人工客服获取帮助。"
-3. 回答要简洁、专业、友好
-4. 如果用户的问题涉及多个 FAQ 主题，合并相关内容回答
-
-以下是 FAQ 知识库：
-{faq_context}
-
-【历史对话】（如果与当前问题相关，可以参考）：
-{history}
-
-请根据上面的 FAQ 知识库回答用户的问题。"""
-
-
-def build_system_prompt(history: str = "") -> str:
-    """
-    构建系统提示词，支持注入历史对话。
-
-    参数:
-        history: 格式化的历史对话字符串
-
-    返回:
-        完整的系统提示词
-    """
-    return SYSTEM_PROMPT_BASE.format(
-        faq_context="{faq_context}",
-        history=history or "（无历史对话）",
-    )
-
-
-# 用户 Prompt 模板
-USER_PROMPT = """用户问题: {question}
-
-请根据上面的 FAQ 知识库回答用户的问题。"""
-
-
-def build_faq_chain(history: str = ""):
-    """
-    使用 LCEL（LangChain Expression Language）构建 FAQ Chain。
-
-    流水线用 | 管道符串联：
-    1. PromptTemplate 组合 system prompt + user question
-    2. LLM（DeepSeek）生成回答
-    3. StrOutputParser 提取字符串输出
-
-    参数:
-        history: 格式化的历史对话字符串，默认为空
-
-    返回:
-        一个可执行的 LangChain chain
-    """
-    system_prompt = build_system_prompt(history)
-
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", system_prompt),
-        ("human", USER_PROMPT),
-    ])
-
-    llm = get_llm()
-
-    # 使用 LCEL 管道符构建 Chain
-    # 每个 | 将上一步的输出传给下一步
-    chain = (
-        {
-            "faq_context": RunnablePassthrough(),
-            "question": RunnablePassthrough(),
-        }
-        | prompt
-        | llm
-        | StrOutputParser()
-    )
-
-    return chain
-
-
-def invoke_faq_chain(question: str, history: str = "") -> str:
-    """
-    调用 FAQ Chain 回答单个问题的便捷函数。
-
-    参数:
-        question: 用户的问题
-        history: 格式化的历史对话字符串，默认为空（即无记忆的单轮对话）
-
-    返回:
-        Chain 生成的回答文本
-    """
-    chain = build_faq_chain(history=history)
-    result = chain.invoke({
-        "faq_context": FAQ_CONTEXT,
-        "question": question,
-    })
-    return result
-
-
 def find_faq_by_question(question: str) -> Optional[dict]:
-    """
-    简单的关键词匹配 FAQ 检索（Phase 1，向量检索将在 Phase 2 引入）。
-
-    参数:
-        question: 用户的问题
-
-    返回:
-        匹配的 FAQ 字典，未找到则返回 None
-    """
     q_lower = question.lower()
     for faq in FAQ_MEETINGS:
         keywords = [tag.lower() for tag in faq.get("tags", [])]

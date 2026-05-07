@@ -21,6 +21,15 @@ class Settings:
     deepseek_base_url: str = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
     deepseek_model: str = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 
+    # Embedding 配置（复用 DeepSeek OpenAI 兼容接口）
+    embedding_model: str = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
+    embedding_dimension: int = int(os.getenv("EMBEDDING_DIMENSION", "1536"))
+
+    # Milvus 向量数据库配置
+    milvus_host: str = os.getenv("MILVUS_HOST", "localhost")
+    milvus_port: int = int(os.getenv("MILVUS_PORT", "19530"))
+    milvus_collection: str = os.getenv("MILVUS_COLLECTION", "zoo_faq_collection")
+
     # 应用配置
     app_host: str = os.getenv("APP_HOST", "0.0.0.0")
     app_port: int = int(os.getenv("APP_PORT", "8000"))

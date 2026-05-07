@@ -7,7 +7,7 @@ from typing import List, Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from app.chains.faq_chain import invoke_faq_chain
+from app.chains.faq_chain import invoke_rag_chain
 from app.llm.deepseek_client import format_chat_history
 
 
@@ -69,7 +69,7 @@ def chat(request: ChatRequest) -> ChatResponse:
         ])
 
     try:
-        answer = invoke_faq_chain(request.message, history=history_text)
+        answer = invoke_rag_chain(request.message, history=history_text)
     except Exception as e:
         raise HTTPException(
             status_code=500,

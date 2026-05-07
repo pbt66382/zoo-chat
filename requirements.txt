@@ -1,4 +1,4 @@
-# Zoo AI Chat - Phase 1 依赖包
+# Zoo AI Chat - Phase 2 依赖包
 
 # AI/ML 核心
 langchain>=0.3.0
@@ -7,6 +7,10 @@ langchain-community>=0.3.0
 
 # LLM 提供方 - DeepSeek（通过 langchain-community 的 ChatOpenAI 兼容 OpenAI 接口）
 # 注意：langchain-openai 已废弃；使用 langchain-community 中的 ChatOpenAI
+
+# Milvus 向量数据库
+pymilvus>=2.3.0
+langchain-milvus>=0.1.0
 
 # Web 框架
 fastapi>=0.110.0
