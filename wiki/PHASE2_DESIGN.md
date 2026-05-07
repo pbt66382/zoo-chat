@@ -169,7 +169,7 @@ DEEPSEEK_MODEL=deepseek-chat
 
 ## 七、FAQ 数据
 
-共 25 条 Zoo 会议服务 FAQ，存储在 `data/faq_meetings.json`，每条包含：
+共 150 条 Zoo 会议服务 FAQ，存储在 `data/faq_meetings.json`，每条包含：
 
 | 字段 | 说明 |
 |------|------|
