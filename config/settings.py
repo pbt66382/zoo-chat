@@ -43,6 +43,10 @@ class Settings:
     data_dir: Path = _project_root / "data"
     faq_meetings_path: Path = data_dir / "faq_meetings.json"
 
+    # RAG 日志配置
+    rag_log_path: Path = _project_root / "logs" / "rag_logs.yaml"
+    rag_log_level: str = os.getenv("RAG_LOG_LEVEL", "full")
+
 
 @lru_cache
 def get_settings() -> Settings:
