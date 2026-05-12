@@ -1,0 +1,61 @@
+{"question": "你好", "expected_intent": "greet"}
+{"question": "在吗", "expected_intent": "greet"}
+{"question": "您好客服", "expected_intent": "greet"}
+{"question": "hi 帮个忙", "expected_intent": "greet"}
+{"question": "辛苦了", "expected_intent": "greet"}
+{"question": "感谢解答", "expected_intent": "greet"}
+{"question": "怎么开个会", "expected_intent": "meeting_create"}
+{"question": "我想发起一场视频会议", "expected_intent": "meeting_create"}
+{"question": "如何创建即时会议", "expected_intent": "meeting_create"}
+{"question": "新建会议在哪里点", "expected_intent": "meeting_create"}
+{"question": "我现在要召开一个临时会议", "expected_intent": "meeting_create"}
+{"question": "想立马拉个会怎么操作", "expected_intent": "meeting_create"}
+{"question": "怎么加入会议", "expected_intent": "meeting_join"}
+{"question": "同事发了个会议号怎么进", "expected_intent": "meeting_join"}
+{"question": "用邀请链接加入会议怎么弄", "expected_intent": "meeting_join"}
+{"question": "我有会议 ID 怎么参会", "expected_intent": "meeting_join"}
+{"question": "怎么扫码进会议", "expected_intent": "meeting_join"}
+{"question": "如何参加别人的会议", "expected_intent": "meeting_join"}
+{"question": "怎么共享屏幕", "expected_intent": "screen_share"}
+{"question": "想分享我的桌面给大家看", "expected_intent": "screen_share"}
+{"question": "屏幕共享按钮在哪", "expected_intent": "screen_share"}
+{"question": "怎么共享 PPT", "expected_intent": "screen_share"}
+{"question": "怎么把我的窗口分享出去", "expected_intent": "screen_share"}
+{"question": "如何展示桌面给参会人", "expected_intent": "screen_share"}
+{"question": "我想预约明天下午三点的会议", "expected_intent": "schedule_meeting"}
+{"question": "怎么预定后天的会", "expected_intent": "schedule_meeting"}
+{"question": "如何安排会议时间", "expected_intent": "schedule_meeting"}
+{"question": "提前预定会议室怎么做", "expected_intent": "schedule_meeting"}
+{"question": "我要修改预约的会议时间", "expected_intent": "schedule_meeting"}
+{"question": "怎么取消已经预约的会议", "expected_intent": "schedule_meeting"}
+{"question": "对方听不到我说话", "expected_intent": "troubleshoot_audio"}
+{"question": "麦克风没反应", "expected_intent": "troubleshoot_audio"}
+{"question": "我说话别人听不见", "expected_intent": "troubleshoot_audio"}
+{"question": "会议中没声音怎么办", "expected_intent": "troubleshoot_audio"}
+{"question": "对方反馈说我有回声", "expected_intent": "troubleshoot_audio"}
+{"question": "我的扬声器在 Zoo 里没声音", "expected_intent": "troubleshoot_audio"}
+{"question": "摄像头打不开", "expected_intent": "troubleshoot_video"}
+{"question": "视频画面卡顿很厉害", "expected_intent": "troubleshoot_video"}
+{"question": "为什么我的视频是黑屏", "expected_intent": "troubleshoot_video"}
+{"question": "虚拟背景设置不了", "expected_intent": "troubleshoot_video"}
+{"question": "画面很模糊看不清", "expected_intent": "troubleshoot_video"}
+{"question": "Zoo 中调不出摄像头", "expected_intent": "troubleshoot_video"}
+{"question": "会议中突然断网", "expected_intent": "troubleshoot_network"}
+{"question": "网络一直在转圈圈", "expected_intent": "troubleshoot_network"}
+{"question": "VPN 下会议很卡", "expected_intent": "troubleshoot_network"}
+{"question": "我老掉线", "expected_intent": "troubleshoot_network"}
+{"question": "网速正常但会议依然卡", "expected_intent": "troubleshoot_network"}
+{"question": "为什么连不上会议", "expected_intent": "troubleshoot_network"}
+{"question": "Zoo 是免费的吗", "expected_intent": "general_inquiry"}
+{"question": "你们家会议产品收费多少", "expected_intent": "general_inquiry"}
+{"question": "怎么注册账号", "expected_intent": "general_inquiry"}
+{"question": "你们家客服电话多少", "expected_intent": "general_inquiry"}
+{"question": "可以开发票吗", "expected_intent": "general_inquiry"}
+{"question": "Zoo 安全吗 数据怎么保护", "expected_intent": "general_inquiry"}
+{"question": "今天上海天气怎么样", "expected_intent": "out_of_scope"}
+{"question": "推荐部好看的电影", "expected_intent": "out_of_scope"}
+{"question": "腾讯会议好用吗", "expected_intent": "out_of_scope"}
+{"question": "上证指数现在多少点", "expected_intent": "out_of_scope"}
+{"question": "你能帮我写一首诗吗", "expected_intent": "out_of_scope"}
+{"question": "周杰伦最新专辑叫什么", "expected_intent": "out_of_scope"}
+{"question": "1+1 等于几", "expected_intent": "out_of_scope"}

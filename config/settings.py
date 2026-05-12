@@ -8,9 +8,22 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-# 从项目根目录加载 .env 文件
 _project_root = Path(__file__).parent.parent
 load_dotenv(_project_root / ".env")
+
+# HuggingFace 主站在国内代理后常被屏蔽，默认走 hf-mirror.com 镜像，
+# 用户可通过 .env 中的 HF_ENDPOINT 覆盖。必须在导入 huggingface 库前设置。
+os.environ.setdefault("HF_ENDPOINT", "https://hf-mirror.com")
+
+
+def _resolve_bool_env(name: str, default: bool) -> bool:
+    """支持 true/1/yes 与 false/0/no 写法的布尔解析；其他值落回默认。"""
+    v = os.getenv(name, "").strip().lower()
+    if v in ("true", "1", "yes"):
+        return True
+    if v in ("false", "0", "no"):
+        return False
+    return default
 
 
 class Settings:
@@ -33,7 +46,7 @@ class Settings:
     # 应用配置
     app_host: str = os.getenv("APP_HOST", "0.0.0.0")
     app_port: int = int(os.getenv("APP_PORT", "8000"))
-    debug: bool = os.getenv("DEBUG", "true").lower() in ("true", "1", "yes")
+    debug: bool = _resolve_bool_env("DEBUG", True)
 
     # LLM 配置
     temperature: float = float(os.getenv("TEMPERATURE", "0.7"))
@@ -43,9 +56,19 @@ class Settings:
     data_dir: Path = _project_root / "data"
     faq_meetings_path: Path = data_dir / "faq_meetings.json"
 
+    # 日志相关
+    log_dir: Path = _project_root / "logs"
+    app_log_path: Path = log_dir / "app.log"
+    log_level: str = os.getenv("LOG_LEVEL", "INFO").upper()
+    log_file_max_bytes: int = int(os.getenv("LOG_FILE_MAX_BYTES", str(10 * 1024 * 1024)))
+    log_file_backup_count: int = int(os.getenv("LOG_FILE_BACKUP_COUNT", "3"))
+
     # RAG 日志配置
     rag_log_path: Path = _project_root / "logs" / "rag_logs.yaml"
     rag_log_level: str = os.getenv("RAG_LOG_LEVEL", "full")
+
+    # /api/logs/tail 是否对外暴露：默认在 DEBUG=true 时开启
+    log_http_tail: bool = _resolve_bool_env("LOG_HTTP_TAIL", debug)
 
 
 @lru_cache

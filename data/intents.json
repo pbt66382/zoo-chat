@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "intents": [
+    {
+      "id": "greet",
+      "name": "问候/寒暄",
+      "description": "打招呼、问好、表达感谢、闲聊开场，不涉及具体问题。",
+      "examples": ["你好", "hi", "在吗", "请问可以帮我吗", "谢谢", "辛苦了"],
+      "needs_retrieval": false,
+      "auto_reply": "您好，我是 Zoo 会议服务的 AI 客服助手，可以为您解答会议创建、加入、屏幕共享、音视频故障等问题，请问有什么可以帮您？"
+    },
+    {
+      "id": "meeting_create",
+      "name": "创建会议",
+      "description": "用户想发起、新建一场即时会议或了解如何召开会议。",
+      "examples": ["怎么发起一个会议", "如何新建会议", "我要召开一个会议", "怎么开会", "怎么开始视频会议"],
+      "needs_retrieval": true
+    },
+    {
+      "id": "meeting_join",
+      "name": "加入会议",
+      "description": "用户想加入别人发起的会议、了解入会方式或会议号怎么用。",
+      "examples": ["怎么加入会议", "会议号在哪里输入", "怎么参加同事的会议", "加入别人的会议怎么操作"],
+      "needs_retrieval": true
+    },
+    {
+      "id": "screen_share",
+      "name": "共享屏幕",
+      "description": "用户咨询屏幕共享、应用窗口共享、白板共享相关。",
+      "examples": ["怎么共享屏幕", "如何分享我的桌面", "共享屏幕在哪", "怎么共享 PPT"],
+      "needs_retrieval": true
+    },
+    {
+      "id": "schedule_meeting",
+      "name": "预约会议",
+      "description": "用户想预约/预定/安排未来某个时间的会议，或修改/取消已预约的会议。",
+      "examples": ["我想预约明天下午3点的会议", "怎么预定会议", "如何安排会议时间", "怎么取消预约的会议"],
+      "needs_retrieval": true
+    },
+    {
+      "id": "troubleshoot_audio",
+      "name": "音频故障",
+      "description": "用户反馈听不到声音、对方听不到自己、麦克风不工作、回声等音频类问题。",
+      "examples": ["对方听不到我说话", "会议中听不到声音", "麦克风没声音", "我的麦克风坏了吗", "为什么对方说我有回声"],
+      "needs_retrieval": true,
+      "needs_slots": true
+    },
+    {
+      "id": "troubleshoot_video",
+      "name": "视频故障",
+      "description": "用户反馈摄像头打不开、画面卡顿模糊、视频黑屏、虚拟背景异常等视频类问题。",
+      "examples": ["摄像头打不开", "视频画面很模糊", "视频黑屏怎么办", "为什么我的画面卡", "虚拟背景设置不了"],
+      "needs_retrieval": true,
+      "needs_slots": true
+    },
+    {
+      "id": "troubleshoot_network",
+      "name": "网络故障",
+      "description": "用户反馈断网、连不上、掉线、卡顿、连接很慢等网络相关问题。",
+      "examples": ["会议中断网了怎么办", "我老掉线", "网络一直卡", "连不上会议", "VPN 下会卡顿吗"],
+      "needs_retrieval": true,
+      "needs_slots": true
+    },
+    {
+      "id": "general_inquiry",
+      "name": "通用咨询",
+      "description": "Zoo 会议产品的通用咨询：套餐价格、注册账号、隐私政策、客服渠道等。",
+      "examples": ["Zoo 收费吗", "怎么注册账号", "你们家的产品怎么样", "客服电话是多少", "怎么开发票"],
+      "needs_retrieval": true
+    },
+    {
+      "id": "out_of_scope",
+      "name": "范围外",
+      "description": "与 Zoo 会议服务完全无关的问题：天气、新闻、娱乐、政治、其他公司产品等。",
+      "examples": ["今天天气怎么样", "推荐部电影", "腾讯会议怎么用", "上证指数多少了"],
+      "needs_retrieval": false,
+      "auto_reply": "抱歉，这个问题不在我的服务范围内。我目前只能解答 Zoo 会议服务相关的咨询，比如会议创建、加入、屏幕共享、音视频故障等，请问您是否还有 Zoo 会议方面的问题？"
+    }
+  ]
+}

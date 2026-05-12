@@ -1,8 +1,12 @@
 """
 LangChain FAQ Chain 模块 - Zoo 会议服务产品线（Phase 2 RAG）。
+
+注意：Phase 3 后核心逻辑迁移到 ``app/pipeline/`` 下的 step 模块，
+此文件仅保留 ``invoke_rag_chain`` 作为旧接口的兼容入口（被部分脚本/测试调用）。
 """
+from __future__ import annotations
+
 import time
-from typing import Optional
 
 from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
@@ -142,28 +146,3 @@ def invoke_rag_chain(question: str, history: str = "") -> str:
     log_rag_invocation(log)
 
     return answer
-
-
-# Phase 1 旧代码（向后兼容）
-from data import FAQ_MEETINGS
-
-
-def _build_faq_context() -> str:
-    lines = []
-    for faq in FAQ_MEETINGS:
-        lines.append(f"【问题{faq['id']}】{faq['question']}")
-        lines.append(f"【回答】{faq['answer']}")
-        lines.append("")
-    return "\n".join(lines)
-
-
-FAQ_CONTEXT = _build_faq_context()
-
-
-def find_faq_by_question(question: str) -> Optional[dict]:
-    q_lower = question.lower()
-    for faq in FAQ_MEETINGS:
-        keywords = [tag.lower() for tag in faq.get("tags", [])]
-        if any(kw in q_lower for kw in keywords):
-            return faq
-    return None

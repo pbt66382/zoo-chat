@@ -32,5 +32,9 @@ htmlcov/
 venv/
 ENV/
 
-# Logs
+# Logs（应用日志、RAG 调用日志均为运行时产物）
 *.log
+logs/
+
+# Milvus / etcd / minio 容器数据卷（本地状态，不入仓）
+volumes/

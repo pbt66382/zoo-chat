@@ -2,15 +2,19 @@
 DeepSeek LLM 客户端封装模块。
 使用 LangChain 的 ChatOpenAI（OpenAI 兼容接口）连接 DeepSeek。
 """
-from typing import List, Dict, Any
+from typing import Any, Dict, List, Optional
 
-from langchain_core.language_models import BaseChatModel
 from langchain_community.chat_models import ChatOpenAI
+from langchain_core.language_models import BaseChatModel
 
 from config.settings import get_settings
 
 
-def get_llm() -> BaseChatModel:
+def get_llm(
+    temperature: Optional[float] = None,
+    max_tokens: Optional[int] = None,
+    **extra: Any,
+) -> BaseChatModel:
     """
     获取配置好的 DeepSeek LLM 实例。
 
@@ -19,8 +23,7 @@ def get_llm() -> BaseChatModel:
     - api_key 从 .env 读取
     - model 名称为 deepseek-chat
 
-    返回:
-        配置好的 ChatOpenAI 实例（兼容 BaseChatModel）
+    参数 ``temperature`` / ``max_tokens`` 可针对特定场景覆盖（例如意图分类需要 0.0）。
     """
     settings = get_settings()
 
@@ -28,10 +31,10 @@ def get_llm() -> BaseChatModel:
         model=settings.deepseek_model,
         base_url=settings.deepseek_base_url,
         api_key=settings.deepseek_api_key,
-        temperature=settings.temperature,
-        max_tokens=settings.max_tokens,
+        temperature=settings.temperature if temperature is None else temperature,
+        max_tokens=settings.max_tokens if max_tokens is None else max_tokens,
+        **extra,
     )
-
     return llm
 
 
