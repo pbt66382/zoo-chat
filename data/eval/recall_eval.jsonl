@@ -1,0 +1,51 @@
+{"question": "如何发起一个即时会议？", "product": "meetings", "expected_faq_ids": [1, 2], "expected_keywords": ["新建", "即时会议"]}
+{"question": "加入会议需要什么条件？", "product": "meetings", "expected_faq_ids": [3, 4], "expected_keywords": ["入会", "链接", "ID"]}
+{"question": "如何共享我的屏幕给其他与会者？", "product": "meetings", "expected_faq_ids": [10, 11], "expected_keywords": ["共享", "屏幕"]}
+{"question": "主持人怎么控制参会人员静音？", "product": "meetings", "expected_faq_ids": [20, 21], "expected_keywords": ["静音", "主持人"]}
+{"question": "视频会议中对方看不到我的画面怎么办？", "product": "meetings", "expected_faq_ids": [30, 31], "expected_keywords": ["摄像头", "视频"]}
+{"question": "会议中麦克风没有声音如何解决？", "product": "meetings", "expected_faq_ids": [25, 26], "expected_keywords": ["麦克风", "音频"]}
+{"question": "如何预约定时开始的会议？", "product": "meetings", "expected_faq_ids": [5, 6], "expected_keywords": ["预约", "定时", "日历"]}
+{"question": "虚拟背景怎么设置？", "product": "meetings", "expected_faq_ids": [40, 41], "expected_keywords": ["虚拟背景", "背景"]}
+{"question": "会议录制如何开启？录制文件保存在哪里？", "product": "meetings", "expected_faq_ids": [45, 46], "expected_keywords": ["录制", "保存"]}
+{"question": "如何让没有账号的外部人员加入会议？", "product": "meetings", "expected_faq_ids": [7, 8], "expected_keywords": ["外部", "访客", "链接"]}
+{"question": "会议密码忘了怎么办？", "product": "meetings", "expected_faq_ids": [9], "expected_keywords": ["密码", "重置"]}
+{"question": "网络不稳定导致会议卡顿如何处理？", "product": "meetings", "expected_faq_ids": [35, 36], "expected_keywords": ["网络", "卡顿", "带宽"]}
+{"question": "如何开启等候室功能？", "product": "meetings", "expected_faq_ids": [50, 51], "expected_keywords": ["等候室", "准入"]}
+{"question": "会议中如何发送文字消息？", "product": "meetings", "expected_faq_ids": [55], "expected_keywords": ["聊天", "消息"]}
+{"question": "怎么把别人提升为联席主持人？", "product": "meetings", "expected_faq_ids": [22], "expected_keywords": ["联席主持人", "权限"]}
+{"question": "如何激活 Zoo Phone 设备？", "product": "phone", "expected_faq_ids": [1], "expected_keywords": ["激活", "序列号"]}
+{"question": "可视电话固件怎么升级？", "product": "phone", "expected_faq_ids": [2], "expected_keywords": ["固件", "升级"]}
+{"question": "话机无法注册到 SIP 服务器", "product": "phone", "expected_faq_ids": [7], "expected_keywords": ["SIP", "注册"]}
+{"question": "可视电话通话没有声音", "product": "phone", "expected_faq_ids": [3], "expected_keywords": ["声音", "静音"]}
+{"question": "话机显示无法连接网络", "product": "phone", "expected_faq_ids": [8], "expected_keywords": ["网络", "IP"]}
+{"question": "如何设置来电自动转接到手机？", "product": "phone", "expected_faq_ids": [6, 17], "expected_keywords": ["转接", "转移"]}
+{"question": "Zoo Phone 如何和 CRM 系统对接？", "product": "phone", "expected_faq_ids": [19], "expected_keywords": ["CRM", "API"]}
+{"question": "话机回声很大怎么处理？", "product": "phone", "expected_faq_ids": [11], "expected_keywords": ["回声", "AEC"]}
+{"question": "忘记设备管理密码怎么恢复？", "product": "phone", "expected_faq_ids": [13], "expected_keywords": ["密码", "重置"]}
+{"question": "Zoo Phone 保修多久？", "product": "phone", "expected_faq_ids": [20], "expected_keywords": ["保修", "年限"]}
+{"question": "耳机如何和电脑蓝牙配对？", "product": "earbuds", "expected_faq_ids": [1], "expected_keywords": ["蓝牙", "配对"]}
+{"question": "USB 耳机连接后没有声音", "product": "earbuds", "expected_faq_ids": [2], "expected_keywords": ["USB", "声音"]}
+{"question": "耳机降噪效果不好怎么改善？", "product": "earbuds", "expected_faq_ids": [3], "expected_keywords": ["降噪", "ANC"]}
+{"question": "耳机麦克风对方听不清楚", "product": "earbuds", "expected_faq_ids": [5], "expected_keywords": ["麦克风", "清楚"]}
+{"question": "耳机电池续航多久？", "product": "earbuds", "expected_faq_ids": [6], "expected_keywords": ["续航", "电池"]}
+{"question": "耳机在使用中频繁断连", "product": "earbuds", "expected_faq_ids": [10], "expected_keywords": ["断连", "蓝牙"]}
+{"question": "耳机固件如何更新？", "product": "earbuds", "expected_faq_ids": [8], "expected_keywords": ["固件", "更新", "App"]}
+{"question": "耳机左右耳不同步怎么解决？", "product": "earbuds", "expected_faq_ids": [9], "expected_keywords": ["同步", "充电盒"]}
+{"question": "如何验证耳机是否正品？", "product": "earbuds", "expected_faq_ids": [16], "expected_keywords": ["正品", "防伪"]}
+{"question": "耳机耳垫可以更换吗？", "product": "earbuds", "expected_faq_ids": [17], "expected_keywords": ["耳垫", "更换"]}
+{"question": "Zoo 鼠标如何与接收器配对？", "product": "mouse", "expected_faq_ids": [1], "expected_keywords": ["接收器", "配对"]}
+{"question": "鼠标用于大屏控制时怎么切换模式？", "product": "mouse", "expected_faq_ids": [2], "expected_keywords": ["大屏", "模式"]}
+{"question": "如何使用鼠标批注功能？", "product": "mouse", "expected_faq_ids": [4], "expected_keywords": ["批注", "标注"]}
+{"question": "鼠标指针漂移不稳定", "product": "mouse", "expected_faq_ids": [7], "expected_keywords": ["漂移", "传感器"]}
+{"question": "鼠标 DPI 怎么调节？", "product": "mouse", "expected_faq_ids": [5], "expected_keywords": ["DPI", "灵敏度"]}
+{"question": "鼠标接收器丢了怎么办？", "product": "mouse", "expected_faq_ids": [10], "expected_keywords": ["接收器", "丢失"]}
+{"question": "在 Mac 上怎么使用 Zoo 鼠标？", "product": "mouse", "expected_faq_ids": [9], "expected_keywords": ["Mac", "macOS"]}
+{"question": "如何自定义鼠标按键功能？", "product": "mouse", "expected_faq_ids": [14], "expected_keywords": ["自定义", "按键"]}
+{"question": "Zoo 大屏如何无线投屏？", "product": "screen", "expected_faq_ids": [1], "expected_keywords": ["投屏", "无线"]}
+{"question": "会议大屏无法加入 Zoo 会议怎么办？", "product": "screen", "expected_faq_ids": [2], "expected_keywords": ["入会", "Room"]}
+{"question": "大屏白板怎么使用？", "product": "screen", "expected_faq_ids": [3], "expected_keywords": ["白板", "Whiteboard"]}
+{"question": "大屏触摸功能失灵", "product": "screen", "expected_faq_ids": [4], "expected_keywords": ["触摸", "校准"]}
+{"question": "大屏显示黑屏或无信号", "product": "screen", "expected_faq_ids": [7], "expected_keywords": ["黑屏", "HDMI"]}
+{"question": "如何远程管理多个会议室大屏？", "product": "screen", "expected_faq_ids": [14], "expected_keywords": ["远程", "管理"]}
+{"question": "大屏如何更新固件？", "product": "screen", "expected_faq_ids": [12], "expected_keywords": ["固件", "更新"]}
+{"question": "会议室大屏如何预约使用？", "product": "screen", "expected_faq_ids": [10], "expected_keywords": ["预约", "日历"]}
