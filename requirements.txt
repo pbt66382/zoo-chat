@@ -1,19 +1,18 @@
-# Zoo AI Chat - Phase 2 依赖包
+# Zoo AI Chat - 全阶段依赖包
 
 # AI/ML 核心
 langchain>=0.3.0
 langchain-core>=0.3.0
 langchain-community>=0.3.0
 
-# LLM 提供方 - DeepSeek（通过 langchain-community 的 ChatOpenAI 调 OpenAI 兼容接口）
-# ChatOpenAI 内部仍依赖 openai SDK，必须显式安装
+# LLM 提供方 - DeepSeek（通过 ChatOpenAI 调 OpenAI 兼容接口）
 openai>=1.0.0
 
 # Milvus 向量数据库
 pymilvus>=2.3.0
 langchain-milvus>=0.1.0
 
-# 本地 Embedding（faq_chain 使用 HuggingFaceEmbeddings）
+# 本地 Embedding + Reranker（HuggingFaceEmbeddings + CrossEncoder）
 langchain-huggingface>=0.1.0
 sentence-transformers>=2.2.0
 
@@ -29,6 +28,15 @@ python-dotenv>=1.0.1
 
 # YAML 配置/日志
 pyyaml>=6.0
+
+# Phase 5：BM25 关键词检索
+rank-bm25>=0.2.2
+
+# Phase 5：中文分词（BM25 词元化）
+jieba>=0.42.1
+
+# Phase 5：A/B 测试统计显著性（可选，缺少时使用近似）
+# scipy>=1.11.0
 
 # 测试
 pytest>=8.2.0

@@ -40,6 +40,16 @@ class ChatContext:
     # 最终回答
     answer: str | None = None
 
+    # Phase 4：产品线信息（由 ProductDetectionStep 填写）
+    product_id: str | None = None
+    product_name: str | None = None
+    product_confidence: float = 0.0
+    milvus_collection: str | None = None
+
+    # Phase 4：Agent 模式标记
+    used_agent: bool = False
+    agent_steps: list[dict[str, Any]] = field(default_factory=list)
+
     # 观测：每步耗时与输入/输出快照
     metrics: dict[str, float] = field(default_factory=dict)
     trace: list[dict[str, Any]] = field(default_factory=list)

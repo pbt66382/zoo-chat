@@ -41,6 +41,10 @@ class SessionState:
     slots: dict[str, str] = field(default_factory=dict)
     pending_slot: str | None = None
 
+    # Phase 4：产品线（会话内持久，避免每轮重新检测）
+    product_id: str | None = None
+    milvus_collection: str | None = None
+
     def touch(self) -> None:
         self.last_seen = time.time()
 

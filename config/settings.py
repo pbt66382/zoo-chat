@@ -70,6 +70,23 @@ class Settings:
     # /api/logs/tail 是否对外暴露：默认在 DEBUG=true 时开启
     log_http_tail: bool = _resolve_bool_env("LOG_HTTP_TAIL", debug)
 
+    # Phase 4：产品线检测
+    product_detection_enabled: bool = _resolve_bool_env("PRODUCT_DETECTION_ENABLED", True)
+    default_collection: str = os.getenv("DEFAULT_COLLECTION", "zoo_faq_meetings")
+
+    # Phase 4：Agent 模式
+    agent_mode_enabled: bool = _resolve_bool_env("AGENT_MODE_ENABLED", False)
+    agent_max_iterations: int = int(os.getenv("AGENT_MAX_ITERATIONS", "5"))
+
+    # Phase 5：召回策略（vector | bm25 | hybrid）
+    retrieval_strategy: str = os.getenv("RETRIEVAL_STRATEGY", "vector")
+    rerank_enabled: bool = _resolve_bool_env("RERANK_ENABLED", False)
+    bm25_weight: float = float(os.getenv("BM25_WEIGHT", "0.3"))
+    vector_weight: float = float(os.getenv("VECTOR_WEIGHT", "0.7"))
+    top_k: int = int(os.getenv("TOP_K", "3"))
+    rerank_top_n: int = int(os.getenv("RERANK_TOP_N", "10"))
+    rerank_model: str = os.getenv("RERANK_MODEL", "BAAI/bge-reranker-base")
+
 
 @lru_cache
 def get_settings() -> Settings:

@@ -22,7 +22,7 @@ from app.pipeline.base import ChatContext
 logger = logging.getLogger("zoo_chat.pipeline.generation")
 
 
-SYSTEM_PROMPT = """你是一个专业、友好的 Zoo 会议服务客服助手。{intent_hint}
+SYSTEM_PROMPT = """你是一个专业、友好的 Zoo {product_hint}客服助手。{intent_hint}
 
 以下是与用户问题最相关的 FAQ 参考内容：
 {context}
@@ -57,7 +57,9 @@ def _format_history(history: list[dict[str, str]]) -> str:
 def _build_messages(ctx: ChatContext) -> list:
     intent = get_intent(ctx.intent_id) if ctx.intent_id else None
     intent_hint = f"当前用户意图判定为「{intent.name}」。" if intent else ""
+    product_hint = f"{ctx.product_name} " if ctx.product_name else ""
     system_text = SYSTEM_PROMPT.format(
+        product_hint=product_hint,
         intent_hint=intent_hint,
         context=_format_context(ctx.retrieved_docs),
         history_block=_format_history(ctx.history),
