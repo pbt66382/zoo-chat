@@ -1,18 +1,23 @@
 """
-FastAPI 路由 - chat 接口（Phase 4 升级版）。
+FastAPI 路由 - chat 接口（Phase 4/6 升级版）。
 
 新增字段
 --------
 ChatRequest.use_agent  bool   是否使用 Agent 模式（覆盖全局配置）
 ChatResponse.product_id/product_name  产品线检测结果
 ChatResponse.used_agent/agent_steps   Agent 模式调试信息
+
+Phase 6 新增
+------------
+POST /api/chat/stream  SSE 流式输出，逐 token 推送
 """
 from __future__ import annotations
 
-from typing import Any, List, Optional
+import json
+from typing import Any, AsyncIterator, List, Optional
 
 from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
 from app.services.chat_service import get_chat_service
@@ -84,12 +89,39 @@ async def chat(request: ChatRequest, http_request: Request) -> ChatResponse:
 
 
 @router.post("/chat/stream")
-async def chat_stream(request: ChatRequest) -> JSONResponse:
-    """SSE 流式响应（占位，待实现）。"""
-    return JSONResponse(
-        status_code=501,
-        content={
-            "detail": "Streaming endpoint is not enabled in this build. Use POST /api/chat instead.",
-            "hint": "GenerationStep.stream() exists; wire it to StreamingResponse when needed.",
+async def chat_stream(request: ChatRequest, http_request: Request) -> StreamingResponse:
+    """SSE 流式响应（Phase 6）：逐 token 推送，前端用 fetch + ReadableStream 消费。
+
+    消息格式（每行）：
+      data: {"type":"chunk","content":"..."}\n\n
+      data: {"type":"done","session_id":"...","product_id":"...",...}\n\n
+      data: {"type":"error","message":"..."}\n\n
+    """
+    request_id = getattr(http_request.state, "request_id", None)
+    history_override = (
+        [{"role": m.role, "content": m.content} for m in request.history]
+        if request.history is not None
+        else None
+    )
+
+    async def event_generator() -> AsyncIterator[str]:
+        try:
+            async for data in get_chat_service().stream(
+                question=request.message,
+                session_id=request.session_id,
+                request_id=request_id,
+                history_override=history_override,
+            ):
+                yield f"data: {data}\n\n"
+        except Exception as exc:
+            yield f"data: {json.dumps({'type': 'error', 'message': str(exc)})}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",   # 关闭 Nginx 缓冲，保证实时推送
+            "Connection": "keep-alive",
         },
     )

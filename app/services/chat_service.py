@@ -1,7 +1,7 @@
 """
-ChatService（Phase 4 升级版）：编排 Pipeline、维护 Session、Agent 模式分流。
+ChatService（Phase 4/6 升级版）：编排 Pipeline、维护 Session、Agent 模式分流。
 
-两种执行模式
+三种执行模式
 -----------
 Pipeline 模式（默认）：固定步骤顺序执行
   ProductDetection → Intent → Router → SlotFilling → Retrieval → Generation
@@ -9,18 +9,22 @@ Pipeline 模式（默认）：固定步骤顺序执行
 Agent 模式（AGENT_MODE_ENABLED=true 或请求参数 use_agent=true）：
   Agent 自主决定调用哪些工具，支持多步推理和动态分支。
 
+Stream 模式（Phase 6）：SSE 逐 token 输出
+  前 5 步同步执行，GenerationStep 改为 astream() 逐 chunk yield。
+
 产品线持久化
 -----------
 同一 session 内只做一次产品检测，结果存到 SessionState，后续轮次直接复用。
 """
 from __future__ import annotations
 
+import json
 import logging
 import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Optional
+from typing import AsyncIterator, Optional
 
 from app.intent.classifier import get_classifier
 from app.memory.session import SessionState, get_session_store
@@ -204,6 +208,95 @@ class ChatService:
             metrics={"total_ms": agent_result.total_ms, "tool_calls": float(agent_result.tool_calls)},
             trace=[],
         )
+
+    async def stream(
+        self,
+        question: str,
+        session_id: Optional[str] = None,
+        request_id: Optional[str] = None,
+        history_override: Optional[list[dict[str, str]]] = None,
+    ) -> AsyncIterator[str]:
+        """SSE 流式模式：前 5 步同步执行，GenerationStep 逐 token yield。
+
+        每次 yield 一个 JSON 字符串，调用方负责拼装 SSE 格式。
+        消息类型：
+          {"type": "chunk",  "content": "..."}          ← 生成中的 token
+          {"type": "done",   "session_id": ..., ...}    ← 完成，含元数据
+          {"type": "error",  "message": "..."}          ← 异常
+        """
+        store = get_session_store()
+        sid = session_id or f"session_{int(time.time() * 1000)}_{uuid.uuid4().hex[:6]}"
+        session = store.get_or_create(sid)
+        history = history_override if history_override is not None else list(session.history)
+
+        ctx = ChatContext(
+            request_id=request_id or f"req_{uuid.uuid4().hex[:12]}",
+            session_id=sid,
+            question=question,
+            history=history,
+            intent_id=session.pending_intent,
+            pending_slot=session.pending_slot,
+            slots=dict(session.slots),
+            product_id=session.product_id,
+            milvus_collection=session.milvus_collection,
+        )
+
+        # 前 5 步（ProductDetection → Intent → Router → SlotFilling → Retrieval）
+        pre_pipeline = ChatPipeline(steps=[
+            ProductDetectionStep(),
+            IntentStep(classifier=get_classifier()),
+            RouterStep(),
+            SlotFillingStep(),
+            RetrievalStep(),
+        ])
+
+        t_start = time.perf_counter()
+        ctx = await pre_pipeline.run(ctx)
+
+        accumulated = ""
+        if ctx.answer:
+            # Router 短路或 SlotFilling 追问：将已有回答整体流出
+            yield json.dumps({"type": "chunk", "content": ctx.answer})
+            accumulated = ctx.answer
+        else:
+            # 正常路径：流式生成
+            gen_step = GenerationStep()
+            async for chunk in gen_step.stream(ctx):
+                accumulated += chunk
+                yield json.dumps({"type": "chunk", "content": chunk})
+            ctx.answer = accumulated
+
+        total_ms = (time.perf_counter() - t_start) * 1000
+        ctx.metrics["total_ms"] = round(total_ms, 2)
+
+        # 更新 session（与 _run_pipeline 保持一致）
+        if history_override is None:
+            session.append_message("user", question)
+            if accumulated:
+                session.append_message("assistant", accumulated)
+
+        if ctx.needs_followup:
+            session.pending_intent = ctx.intent_id
+            session.pending_slot = ctx.pending_slot
+            session.slots = dict(ctx.slots)
+        else:
+            session.reset_slot_filling()
+
+        if ctx.product_id:
+            session.product_id = ctx.product_id
+            session.milvus_collection = ctx.milvus_collection
+
+        yield json.dumps({
+            "type": "done",
+            "session_id": sid,
+            "intent_id": ctx.intent_id,
+            "intent_confidence": ctx.intent_confidence,
+            "product_id": ctx.product_id,
+            "product_name": ctx.product_name,
+            "needs_followup": ctx.needs_followup,
+            "pending_slot": ctx.pending_slot,
+            "latency_ms": round(total_ms, 2),
+        })
 
     @staticmethod
     def _record_rag_log(ctx: ChatContext, total_ms: float) -> None:

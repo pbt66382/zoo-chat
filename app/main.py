@@ -31,9 +31,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-frontend_dir = Path(__file__).parent.parent / "frontend"
-if frontend_dir.exists():
-    app.mount("/static", StaticFiles(directory=str(frontend_dir)), name="static")
+# Phase 6：优先用 React 构建产物（frontend/dist），回退到旧 HTML
+_frontend_dist = Path(__file__).parent.parent / "frontend" / "dist"
+_frontend_legacy = Path(__file__).parent.parent / "frontend"
+_static_dir = _frontend_dist if _frontend_dist.exists() else _frontend_legacy
+if _static_dir.exists():
+    app.mount("/static", StaticFiles(directory=str(_static_dir), html=True), name="static")
 
 app.include_router(chat_router)
 app.include_router(logs_router)
