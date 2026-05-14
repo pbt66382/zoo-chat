@@ -18,6 +18,9 @@ build/
 # Frontend build output（React Vite 构建产物，保留入仓方便直接部署）
 !frontend/dist/
 
+# Frontend dependencies
+frontend/node_modules/
+
 # IDE
 .idea/
 .vscode/
